@@ -33,7 +33,9 @@ export default function Home() {
       setStage("profiles");
     }, 1650);
 
-    return () => window.clearTimeout(timeoutId);
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
   }, []);
 
   function handleSplashComplete() {
@@ -42,7 +44,14 @@ export default function Home() {
 
   function handleSelectProfile(profileId: PortfolioSection) {
     setActiveSection(profileId);
+    window.history.replaceState(null, "", `/#${profileId}`);
     setStage("dashboard");
+  }
+
+  function handleBackToProfiles() {
+    setStage("profiles");
+    setActiveSection(null);
+    window.history.replaceState(null, "", "/");
   }
 
   return (
@@ -69,7 +78,11 @@ export default function Home() {
           )}
 
           {stage === "dashboard" && (
-            <Dashboard key="dashboard" activeSection={activeSection} />
+            <Dashboard
+              key="dashboard"
+              activeSection={activeSection}
+              onBackToProfiles={handleBackToProfiles}
+            />
           )}
         </AnimatePresence>
       </div>

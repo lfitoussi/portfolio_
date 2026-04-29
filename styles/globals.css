@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 html,
 body {
   max-width: 100vw;
@@ -97,12 +99,14 @@ a {
   aspect-ratio: 1 / 1;
   border-radius: 10px;
   border: 2px solid transparent;
-  font-size: clamp(2.6rem, 4vw, 3.25rem);
-  font-family: var(--font-bebas-neue), Impact, sans-serif;
-  display: grid;
-  place-items: center;
-  color: #ffffff;
+  overflow: hidden;
   transition: border-color 0.2s ease, filter 0.2s ease;
+}
+
+.profile-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .profile-card:hover .profile-avatar,

@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export type PortfolioSection = "projects" | "skills" | "contact" | "about";
 
 export type Profile = {
   id: PortfolioSection;
   name: string;
-  accent: string;
+  avatar: string;
 };
 
 type ProfileSelectionProps = {
@@ -49,10 +50,15 @@ export default function ProfileSelection({
           >
             <span
               className="profile-avatar"
-              style={{ background: profile.accent }}
               aria-hidden="true"
             >
-              {profile.name.charAt(0)}
+              <Image
+                src={profile.avatar}
+                alt={profile.name}
+                width={240}
+                height={240}
+                className="profile-avatar-image"
+              />
             </span>
             <span className="profile-name">{profile.name}</span>
           </motion.button>
