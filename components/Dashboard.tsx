@@ -104,26 +104,24 @@ function ProjectDetailsModal({
   selectedProject: DashboardCard | null;
   onClose: () => void;
 }) {
-  const [showInternalPreview, setShowInternalPreview] = useState(false);
   if (!selectedProject) return null;
 
   return (
-    <>
+    <motion.div
+      className="fixed inset-0 z-50 flex items-end bg-black/55 p-2 backdrop-blur-[1px] sm:items-center sm:justify-center sm:p-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
       <motion.div
-        className="fixed inset-0 z-50 flex items-end bg-black/55 p-2 backdrop-blur-[1px] sm:items-center sm:justify-center sm:p-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
+        className="w-full max-w-4xl overflow-hidden rounded-xl border border-white/15 bg-[#181818] text-white shadow-2xl"
+        initial={{ opacity: 0, y: 30, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.98 }}
+        transition={{ duration: 0.2 }}
+        onClick={(event) => event.stopPropagation()}
       >
-        <motion.div
-          className="w-full max-w-4xl overflow-hidden rounded-xl border border-white/15 bg-[#181818] text-white shadow-2xl"
-          initial={{ opacity: 0, y: 30, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 20, scale: 0.98 }}
-          transition={{ duration: 0.2 }}
-          onClick={(event) => event.stopPropagation()}
-        >
         <div className="relative h-56 bg-black sm:h-72">
           <Image
             src={selectedProject.image}
@@ -140,69 +138,27 @@ function ProjectDetailsModal({
           </div>
         </div>
 
-          <div className="grid gap-7 p-5 sm:grid-cols-[1.2fr_1fr] sm:p-7">
-            <div>
-              <p className="mb-5 text-sm leading-relaxed text-zinc-200">{selectedProject.subtitle}</p>
-              <button
-                type="button"
-                onClick={() => setShowInternalPreview(true)}
-                className="inline-flex items-center gap-2 rounded bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
-                style={{ color: "#111111" }}
-              >
-                <PlayIcon className="h-4 w-4" color="#111111" />
-                Lecture
-              </button>
-            </div>
-            <div className="space-y-3 text-sm leading-relaxed text-zinc-300">
-              <p><span className="text-zinc-500">Categorie: </span>{selectedProject.tag ?? "Projet"}</p>
-              <p><span className="text-zinc-500">Type: </span>Portfolio case study</p>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-
-      <AnimatePresence>
-        {showInternalPreview && (
-          <motion.div
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowInternalPreview(false)}
-          >
-            <motion.div
-              className="w-full max-w-4xl overflow-hidden rounded-xl border border-white/20 bg-black"
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.96 }}
-              onClick={(event) => event.stopPropagation()}
+        <div className="grid gap-7 p-5 sm:grid-cols-[1.2fr_1fr] sm:p-7">
+          <div>
+            <p className="mb-5 text-sm leading-relaxed text-zinc-200">{selectedProject.subtitle}</p>
+            <a
+              href={selectedProject.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900 hover:bg-zinc-200"
+              style={{ color: "#111111" }}
             >
-              {selectedProject.trailer ? (
-                <video
-                  src={selectedProject.trailer}
-                  className="h-[60vh] w-full object-cover"
-                  autoPlay
-                  controls
-                  muted
-                  loop
-                  playsInline
-                />
-              ) : (
-                <div className="relative h-[60vh] w-full">
-                  <Image
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    fill
-                    sizes="100vw"
-                    className="object-contain bg-black"
-                  />
-                </div>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+              <PlayIcon className="h-4 w-4" color="#111111" />
+              Lecture
+            </a>
+          </div>
+          <div className="space-y-3 text-sm leading-relaxed text-zinc-300">
+            <p><span className="text-zinc-500">Categorie: </span>{selectedProject.tag ?? "Projet"}</p>
+            <p><span className="text-zinc-500">Type: </span>Portfolio case study</p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
